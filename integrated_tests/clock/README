@@ -1,0 +1,7 @@
+avr-gcc -mmcu=attiny85 -DF_CPU=8000000UL -Os \
+  -o clock.elf clock.c
+
+avr-objcopy -O ihex clock.elf clock.hex
+
+sudo avrdude -c usbtiny -p t85 -B 125kHz \
+  -U flash:w:clock.hex:i

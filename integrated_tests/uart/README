@@ -1,0 +1,9 @@
+minicom -D /dev/ttyUSB0 -b 9600
+
+avr-gcc -mmcu=attiny85 -DF_CPU=8000000UL -Os \
+  -o uart-test.elf uart-test.c
+
+avr-objcopy -O ihex uart-test.elf uart-test.hex
+
+sudo avrdude -c usbtiny -p t85 -B 125kHz \
+  -U flash:w:uart-test.hex:i

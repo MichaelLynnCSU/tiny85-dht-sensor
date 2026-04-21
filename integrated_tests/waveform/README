@@ -1,0 +1,8 @@
+avr-gcc -mmcu=attiny85 -DF_CPU=8000000UL -Os \
+  -o dht-waveform-test.elf \
+     dht-waveform-test.c
+
+avr-objcopy -O ihex dht-waveform-test.elf dht-waveform-test.hex
+
+sudo avrdude -c usbtiny -p t85 -B 125kHz \
+  -U flash:w:dht-waveform-test.hex:i

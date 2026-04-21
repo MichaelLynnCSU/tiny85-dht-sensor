@@ -1,0 +1,5 @@
+avr-gcc -mmcu=attiny85 -DF_CPU=8000000UL -Os -o dht-sensor.elf tiny85-dht-sensor.c
+avr-objcopy -O ihex dht-sensor.elf dht-sensor.hex
+sudo avrdude -c usbtiny -p t85 -B 125kHz -U flash:w:dht-sensor.hex:i
+
+minicom -D /dev/ttyUSB0 -b 9600
