@@ -1,3 +1,7 @@
 *.elf
 *.hex
 src/test
+*.o
+*.s
+*.i
+tests/test_temp

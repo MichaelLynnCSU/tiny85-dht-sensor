@@ -2,7 +2,7 @@
 ## Goal
 Replace the unreliable DHT11 sensors from Arduino kits with a custom drop-in replacement built from an ATtiny85.
 ## Why
-The DHT11 timing problem is real and well documented in production. On this project it showed up when the STM32F411 was running the dashboard, BLE stack, and DHT11 reads simultaneously — interrupt masking under shared load caused enough jitter to corrupt the DHT11 bit timing, returning garbage data. The fix required migrating the motor and sensor reads to a dedicated ESP32-C3 just to get clean timing isolation.
+The DHT11 timing problem is real and well documented in production. On this project it showed up when the STM32F103 was running multiple DHT11 sensor reads alongside FRAM logging and UART output simultaneously — interrupt masking under shared load caused enough jitter to corrupt the DHT11 bit timing, returning garbage data. The fix required migrating the motor to a dedicated ESP32-C3 just to get clean timing isolation.
 The root cause was the DHT11 protocol itself — it requires microsecond-accurate pulse timing with no tolerance for latency. Any shared interrupt load breaks it. The chip is fragile by design.
 This project fixes that at the source. Instead of working around the DHT11's timing requirements, the ATtiny85 generates the protocol itself in firmware with full control over pulse width and timing. The host MCU sees a clean, reliable signal regardless of its own interrupt load.
 ## How It Works
